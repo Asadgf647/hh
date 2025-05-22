@@ -3,10 +3,10 @@
 Welcome! This guide shows you two clear ways to install and run **Apache HTTP Server** on **Ubuntu/Debian Linux**:
 
 ### You’ll Learn:
-- ✅ Easy system-wide install
-- ✅ User-level custom build (no root access!)
-- ✅ Custom port setup
-- ✅ Auto-start with `systemd`
+- ✅ Easy system-wide install  
+- ✅ User-level custom build (no root access!)  
+- ✅ Custom port setup  
+- ✅ Auto-start with `systemd`  
 - ✅ Hosting your own site in minutes!
 
 ---
@@ -17,6 +17,9 @@ Welcome! This guide shows you two clear ways to install and run **Apache HTTP Se
 
 ```bash
 sudo apt update
+```
+
+```bash
 sudo apt install apache2
 ```
 
@@ -24,7 +27,13 @@ sudo apt install apache2
 
 ```bash
 sudo systemctl unmask apache2
+```
+
+```bash
 sudo systemctl enable apache2
+```
+
+```bash
 sudo systemctl start apache2
 ```
 
@@ -48,6 +57,9 @@ sudo systemctl stop apache2
 
 ```bash
 sudo apt update
+```
+
+```bash
 sudo apt install build-essential libpcre3-dev libapr1-dev libaprutil1-dev libssl-dev
 ```
 
@@ -55,7 +67,13 @@ sudo apt install build-essential libpcre3-dev libapr1-dev libaprutil1-dev libssl
 
 ```bash
 wget https://downloads.apache.org/httpd/httpd-2.4.63.tar.gz
+```
+
+```bash
 tar -xvzf httpd-2.4.63.tar.gz
+```
+
+```bash
 cd httpd-2.4.63
 ```
 
@@ -63,7 +81,13 @@ cd httpd-2.4.63
 
 ```bash
 ./configure --prefix=$HOME/apache --enable-so
+```
+
+```bash
 make
+```
+
+```bash
 make install
 ```
 
@@ -142,6 +166,9 @@ hostname -I
 
 ```bash
 ps aux | grep httpd
+```
+
+```bash
 ss -tuln | grep 8081
 ```
 
@@ -153,10 +180,13 @@ ss -tuln | grep 8081
 
 ```bash
 mkdir -p ~/.config/systemd/user
+```
+
+```bash
 nano ~/.config/systemd/user/apache.service
 ```
 
-Paste the following:
+Paste the following content:
 
 ```
 [Unit]
@@ -173,23 +203,45 @@ Group=YOUR_USERNAME
 WantedBy=default.target
 ```
 
-> Replace `YOUR_USERNAME` with your actual username.
+> Replace `YOUR_USERNAME` with your actual Linux username (you can check it with `whoami`).
 
 ---
 
-### ✅ Step 2: Enable & Start Apache with systemd
+### ✅ Step 2: Enable & Start Apache with systemd (User-Level)
 
 ```bash
 systemctl --user daemon-reexec
+```
+
+```bash
 systemctl --user enable apache.service
+```
+
+```bash
 systemctl --user start apache.service
 ```
 
-Other commands:
+---
+
+### ❓ What These Commands Do:
+
+- `systemctl --user` is for **user-level services only**, not system-wide ones.
+- These commands will **only manage your custom-built Apache** running from `~/apache/`, not the one installed via `apt`.
+- Useful when you don’t have `sudo` but still want Apache to auto-start with your user session.
+
+---
+
+### 🔄 Other systemctl --user Commands:
 
 ```bash
 systemctl --user status apache.service
+```
+
+```bash
 systemctl --user restart apache.service
+```
+
+```bash
 systemctl --user stop apache.service
 ```
 
@@ -199,9 +251,9 @@ systemctl --user stop apache.service
 
 You now have:
 
-- Apache installed **your way**
-- A web page hosted at `http://your-ip:PORT`
-- Auto-start at boot (if desired)
+- Apache installed **your way**  
+- A web page hosted at `http://your-ip:PORT`  
+- Auto-start at boot (if desired)  
 - Full control — even without root access!
 
 ---
